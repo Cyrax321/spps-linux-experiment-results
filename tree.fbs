@@ -1,0 +1,8 @@
+namespace FB_Bench;
+
+table Node {
+  id: int;
+  children: [Node];
+}
+
+root_type Node;

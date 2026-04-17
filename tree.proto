@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package PB_Bench;
+
+message Node {
+  int32 id = 1;
+  repeated Node children = 2;
+}
