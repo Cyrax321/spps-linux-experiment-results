@@ -1,0 +1,56 @@
+=================================================================
+ BLOCK E — COMPRESSION EXPERIMENTS
+ SPPS + zstd on all datasets and topologies
+=================================================================
+
+========== E1: SPPS + zstd on All Three Datasets ==========
+
+Datasets loaded:
+  Django AST: n=2325575
+  sqlite3 AST: n=503141
+  XMark XML: n=500000
+
+Dataset/Level            Comp.Bytes  Bytes/Node  Comp.ms     Decomp.ms   Ratio     
+-----------------------------------------------------------------------------------
+Django AST (raw)         18604592    8.00        -           -           1.00      
+Django AST (zstd-1)      7671205     3.30        78.47       34.02       2.43      
+Django AST (zstd-3)      7638651     3.28        193.73      29.47       2.44      
+
+sqlite3 AST (raw)        4025120     8.00        -           -           1.00      
+sqlite3 AST (zstd-1)     2373514     4.72        16.72       5.46        1.70      
+sqlite3 AST (zstd-3)     1925269     3.83        30.05       5.89        2.09      
+
+XMark XML (raw)          3999992     8.00        -           -           1.00      
+XMark XML (zstd-1)       1347358     2.69        16.28       5.88        2.97      
+XMark XML (zstd-3)       1344437     2.69        26.41       5.84        2.98      
+
+
+========== E2: Compression Across Topologies (n=1M) ==========
+
+Topology                 Raw B/node  zstd-1 B/n  zstd-3 B/n  Ratio-3   
+-----------------------------------------------------------------------
+Path Graph               8.00        5.55        3.14        2.54      
+Star Graph               8.00        1.02        1.02        7.88      
+Balanced Binary          8.00        3.60        3.12        2.56      
+Random AST-Like          8.00        4.51        4.16        1.92      
+
+========== E3: All-Format Compression Comparison ==========
+(Django AST, n=2,325,575 — all formats through same zstd pipeline)
+
+Format                   Raw B/node     zstd-1 B/n     zstd-3 B/n     Ratio-3     
+----------------------------------------------------------------------------------
+SPPS                     8.00           3.30           3.28           2.44        
+Protobuf (Arena)         6.13           3.97           2.00           3.07        
+FlatBuffers              20.00          6.07           6.01           3.33        
+
+--- Summary ---
+SPPS raw:           8.00 B/node
+SPPS+zstd-3:        3.28 B/node (2.44x compression)
+Protobuf raw:       6.13 B/node
+Protobuf+zstd-3:    2.00 B/node (3.07x compression)
+FlatBuffers raw:    20.00 B/node
+FlatBuffers+zstd-3: 6.01 B/node (3.33x compression)
+
+=================================================================
+ BLOCK E COMPLETE
+=================================================================

@@ -1,0 +1,133 @@
+=================================================================
+ BLOCK H — WORKED EXAMPLES FOR PAPER
+ Step-by-step encoding and decoding traces
+=================================================================
+=================================================================
+ H1: COMPLETE ENCODING TRACE (n=7)
+=================================================================
+
+  INPUT TREE (n=7, root=1):
+         1
+        / \
+       2   3
+      / \   \
+     4   5   6
+             |
+             7
+
+  Edge list: {(1,2), (1,3), (2,4), (2,5), (3,6), (6,7)}
+
+  STEP 1: Compute parent[], ChildRank[], neighborSum[]
+  Node    Parent    ChildRank   NeighborSum     
+  ----------------------------------------------
+  1       0         0           5               
+  2       1         0           10              
+  3       1         1           7               
+  4       2         0           2               
+  5       2         1           2               
+  6       3         0           10              
+  7       6         0           6               
+
+  STEP 2: Virtual node injection
+    v_virt = 8 (node n+1)
+    N = n + 2 = 9 (radix for encoding)
+    Attach v_virt=8 as child of root r=1 at rank 2
+    neighborSum[1] updated to 13
+
+  STEP 3: Degree array D[] (unrooted augmented tree)
+    Formula: D[v] = |children(v)| + 1 (for parent edge)
+    D[root] = |children(root)| + 1 (for v_virt edge)
+    D[v_virt] = 1
+  Node      |children|D[v]      Is leaf?       
+  ---------------------------------------------
+  1         2         3                        
+  2         2         3                        
+  3         1         2                        
+  4         0         1         YES            
+  5         0         1         YES            
+  6         1         2                        
+  7         0         1         YES            
+  8         0         1         YES            
+
+  STEP 4: Prüfer-like encoding (leaf removal)
+  Step  Leaf    P       k       d     ω = d·(P·N+k)    Action                        
+  ----------------------------------------------------------------------------
+  1     4       2       0       1     18                  Remove 4, D[2]=3->2
+  2     5       2       1       1     19                  Remove 5, D[2]=2->1
+  3     2       1       0       1     9                   Remove 2, D[1]=3->2
+  4     7       6       0       1     54                  Remove 7, D[6]=2->1
+  5     6       3       0       1     27                  Remove 6, D[3]=2->1
+  6     3       1       1       1     10                  Remove 3, D[1]=2->1
+  7     1       8       0       -1    -72                 Remove 1, D[8]=1->0
+
+  Drop last entry (virtual root edge).
+
+  FINAL SEQUENCE S (length 6):
+    S = [18, 19, 9, 54, 27, 10]
+    (All values positive → all d=+1 → all edges parent→child)
+
+
+=================================================================
+ H2: COMPLETE DECODING TRACE (same n=7 tree)
+=================================================================
+
+  INPUT SEQUENCE S = [18, 19, 9, 54, 27, 10]
+  n = |S| + 1 = 7
+  N = n + 2 = 9
+
+  PASS 1: Extract parent labels, compute degrees
+  i     ω_i      |ω_i|    P_i       k_i       d_i       
+  --------------------------------------------------------
+  1     18        18        2         0         1         
+  2     19        19        2         1         1         
+  3     9         9         1         0         1         
+  4     54        54        6         0         1         
+  5     27        27        3         0         1         
+  6     10        10        1         1         1         
+
+  After Pass 1, D_dec[] (Prüfer degree = 1 + appearances):
+    D_dec[1] = 3
+    D_dec[2] = 3
+    D_dec[3] = 2
+    D_dec[4] = 1  (leaf)
+    D_dec[5] = 1  (leaf)
+    D_dec[6] = 2
+    D_dec[7] = 1  (leaf)
+    D_dec[8] = 1  (leaf)
+
+  BasePointer[] (CSR prefix sum from out_deg):
+    BasePointer[1] = 0  (out_deg=2)
+    BasePointer[2] = 2  (out_deg=2)
+    BasePointer[3] = 4  (out_deg=1)
+    BasePointer[6] = 5  (out_deg=1)
+
+  PASS 2: Reconstruct tree (fill CSR spatial map M[])
+  i     Leaf    P_i     k_i     M[BP[P]+k] = leaf        
+  -------------------------------------------------------
+  1     4       2       0       M[2+0] = 4               
+  2     5       2       1       M[2+1] = 5               
+  3     2       1       0       M[0+0] = 2               
+  4     7       6       0       M[5+0] = 7               
+  5     6       3       0       M[4+0] = 6               
+  6     3       1       1       M[0+1] = 3               
+
+  Remaining degree-1 nodes: 1 and 8
+  Virtual node = 8, so root = 1
+
+  FINAL CSR MAP M[]:
+    Node 1 children: [2, 3]
+    Node 2 children: [4, 5]
+    Node 3 children: [6]
+    Node 6 children: [7]
+
+  RECONSTRUCTED TREE:
+    1 -> {2, 3}
+    2 -> {4, 5}
+    3 -> {6}
+    6 -> {7}
+
+  VERIFICATION: Original tree MATCHES reconstructed tree → PASS
+
+=================================================================
+ BLOCK H COMPLETE
+=================================================================

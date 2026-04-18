@@ -1,0 +1,64 @@
+=================================================================
+ BLOCK D — LOUDS BASELINE INTEGRATION
+ SPPS vs FlatBuffers vs Protobuf vs LOUDS
+ 30 trials · Process-level measurement
+=================================================================
+
+Dataset: Django AST, n=2325575
+Protocol: 2 warmup + 30 timed trials per method
+
+--- SPPS ---
+  Trial 10/30
+  Trial 20/30
+  Trial 30/30
+
+--- LOUDS ---
+  Trial 10/30
+  Trial 20/30
+  Trial 30/30
+
+--- FlatBuffers ---
+  Trial 10/30
+  Trial 20/30
+  Trial 30/30
+
+--- Protobuf ---
+  Trial 10/30
+  Trial 20/30
+  Trial 30/30
+
+=================================================================
+ D2: HEAD-TO-HEAD COMPARISON TABLE
+=================================================================
+
+Method         Enc(ms)     Dec(ms)     DFS(ms)     Size(bytes)    B/node      
+------------------------------------------------------------------------------
+SPPS           39.03       30.35       38.14       18604592       8.00        
+LOUDS          85.63       113.99      38.51       581394         0.25        
+FlatBuffers    196.73      0.00        55.68       46511508       20.00       
+Protobuf       814.62      1734.49     37.12       14246489       6.13        
+
+=================================================================
+ D3: SPEEDUP NARRATIVE
+=================================================================
+
+Total roundtrip (encode + decode + DFS):
+  SPPS:        107.52 ms
+  LOUDS:       238.14 ms
+  FlatBuffers: 252.41 ms
+  Protobuf:    2586.22 ms
+
+Speedup of SPPS over:
+  LOUDS:       2.21x
+  FlatBuffers: 2.35x
+  Protobuf:    24.05x
+
+Size comparison:
+  SPPS:        8.00 B/node
+  LOUDS:       0.25 B/node
+  FlatBuffers: 20.00 B/node
+  Protobuf:    6.13 B/node
+
+=================================================================
+ BLOCK D COMPLETE
+=================================================================
