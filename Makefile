@@ -29,15 +29,15 @@ block_b: block_b_linearity.cpp
 	@echo "Built block_b_linearity"
 
 block_c: block_c_benchmarks.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PBFLAGS) $(LIBS) $(PB_SRC) block_c_benchmarks.cpp -o block_c_benchmarks
+	$(CXX) $(CXXFLAGS) $(PB_SRC) block_c_benchmarks.cpp -o block_c_benchmarks $(PBFLAGS) $(LIBS)
 	@echo "Built block_c_benchmarks"
 
 block_d: block_d_louds.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PBFLAGS) $(LIBS) $(PB_SRC) block_d_louds.cpp -o block_d_louds
+	$(CXX) $(CXXFLAGS) $(PB_SRC) block_d_louds.cpp -o block_d_louds $(PBFLAGS) $(LIBS)
 	@echo "Built block_d_louds"
 
 block_e: block_e_compression.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PBFLAGS) $(LIBS) $(PB_SRC) block_e_compression.cpp -o block_e_compression
+	$(CXX) $(CXXFLAGS) $(PB_SRC) block_e_compression.cpp -o block_e_compression $(PBFLAGS) $(LIBS)
 	@echo "Built block_e_compression"
 
 block_f: block_f_tail_latency.cpp
@@ -45,7 +45,7 @@ block_f: block_f_tail_latency.cpp
 	@echo "Built block_f_tail_latency"
 
 block_g: block_g_downstream.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PBFLAGS) $(PB_SRC) block_g_downstream.cpp -o block_g_downstream
+	$(CXX) $(CXXFLAGS) $(PB_SRC) block_g_downstream.cpp -o block_g_downstream $(PBFLAGS)
 	@echo "Built block_g_downstream"
 
 block_h: block_h_worked_examples.cpp
@@ -53,11 +53,11 @@ block_h: block_h_worked_examples.cpp
 	@echo "Built block_h_worked_examples"
 
 profiler: profiler.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PBFLAGS) $(LIBS) $(PB_SRC) profiler.cpp -o profiler
+	$(CXX) $(CXXFLAGS) $(PB_SRC) profiler.cpp -o profiler $(PBFLAGS) $(LIBS)
 	@echo "Built profiler"
 
 profiler_isolated: profiler_isolated.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PBFLAGS) $(LIBS) $(PB_SRC) profiler_isolated.cpp -o profiler_isolated
+	$(CXX) $(CXXFLAGS) $(PB_SRC) profiler_isolated.cpp -o profiler_isolated $(PBFLAGS) $(LIBS)
 	@echo "Built profiler_isolated"
 
 clean:
