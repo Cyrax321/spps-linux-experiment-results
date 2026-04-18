@@ -30,15 +30,15 @@ block_b: block_b_linearity.cpp
 	@echo "Built block_b_linearity"
 
 block_c: block_c_benchmarks.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) block_c_benchmarks.cpp -o block_c_benchmarks -Wl,--start-group $(PB_LIBS) $(LIBS) -Wl,--end-group
+	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) block_c_benchmarks.cpp -o block_c_benchmarks -Wl,--start-group -Wl,-Bstatic $(PB_LIBS) -Wl,-Bdynamic -Wl,--end-group $(LIBS)
 	@echo "Built block_c_benchmarks"
 
 block_d: block_d_louds.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) block_d_louds.cpp -o block_d_louds -Wl,--start-group $(PB_LIBS) $(LIBS) -Wl,--end-group
+	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) block_d_louds.cpp -o block_d_louds -Wl,--start-group -Wl,-Bstatic $(PB_LIBS) -Wl,-Bdynamic -Wl,--end-group $(LIBS)
 	@echo "Built block_d_louds"
 
 block_e: block_e_compression.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) block_e_compression.cpp -o block_e_compression -Wl,--start-group $(PB_LIBS) $(LIBS) -Wl,--end-group
+	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) block_e_compression.cpp -o block_e_compression -Wl,--start-group -Wl,-Bstatic $(PB_LIBS) -Wl,-Bdynamic -Wl,--end-group $(LIBS)
 	@echo "Built block_e_compression"
 
 block_f: block_f_tail_latency.cpp
@@ -46,7 +46,7 @@ block_f: block_f_tail_latency.cpp
 	@echo "Built block_f_tail_latency"
 
 block_g: block_g_downstream.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) block_g_downstream.cpp -o block_g_downstream -Wl,--start-group $(PB_LIBS) -Wl,--end-group
+	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) block_g_downstream.cpp -o block_g_downstream -Wl,--start-group -Wl,-Bstatic $(PB_LIBS) -Wl,-Bdynamic -Wl,--end-group
 	@echo "Built block_g_downstream"
 
 block_h: block_h_worked_examples.cpp
@@ -54,11 +54,11 @@ block_h: block_h_worked_examples.cpp
 	@echo "Built block_h_worked_examples"
 
 profiler: profiler.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) profiler.cpp -o profiler -Wl,--start-group $(PB_LIBS) $(LIBS) -Wl,--end-group
+	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) profiler.cpp -o profiler -Wl,--start-group -Wl,-Bstatic $(PB_LIBS) -Wl,-Bdynamic -Wl,--end-group $(LIBS)
 	@echo "Built profiler"
 
 profiler_isolated: profiler_isolated.cpp $(PB_SRC)
-	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) profiler_isolated.cpp -o profiler_isolated -Wl,--start-group $(PB_LIBS) $(LIBS) -Wl,--end-group
+	$(CXX) $(CXXFLAGS) $(PB_INC) $(PB_SRC) profiler_isolated.cpp -o profiler_isolated -Wl,--start-group -Wl,-Bstatic $(PB_LIBS) -Wl,-Bdynamic -Wl,--end-group $(LIBS)
 	@echo "Built profiler_isolated"
 
 clean:
