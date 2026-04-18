@@ -11,7 +11,7 @@
 CXX      = g++
 CXXFLAGS = -std=c++17 -O3 -march=native -I.
 PBFLAGS  = $(shell pkg-config --cflags --libs protobuf)
-LIBS     = -lflatbuffers -lzstd -lpthread
+LIBS     = -lprotobuf-lite -lflatbuffers -lzstd -lpthread
 
 # Generated protobuf source (run: protoc --cpp_out=. tree.proto)
 PB_SRC   = tree.pb.cc
